@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public class RingklasseVU<T> implements Serializable,Queue<T>{
@@ -17,11 +18,14 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
     boolean discarding;
 
     //Konstruktor
-    RingklasseVU(int cap_in){
+    RingklasseVU(int cap_in, boolean fixedCapacity_in , boolean discarding_in){
         size = 0;
         writePOS = 0;
         readPOS = 0;
         capacity = cap_in;
+        fixedCapacity = fixedCapacity_in;
+        discarding = discarding_in;
+        elements = new ArrayList<T>(capacity);
     }
 
     @Override
@@ -31,8 +35,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return false;
+        return (writePOS == readPOS) ;
     }
 
     @Override
@@ -96,10 +99,23 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
     }
 
     @Override
-    public boolean add(Object e) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean add(T e) {
+    
+        return pr_add(e);
     }
+
+    private boolean pr_add(T e) {
+        if(next(writePOS) == readPOS){
+            return false;
+        }else{
+            this.advance_writing();
+            elements.add(writePOS, e);
+            size++;
+            return true;
+        } 
+    }
+
+    
 
     @Override
     public boolean offer(Object e) {
@@ -109,28 +125,63 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
 
     @Override
     public T remove() {
-        // TODO Auto-generated method stub
-        return null;
+        if(this.isEmpty()){
+            throw new NoSuchElementException();
+        }else{
+            T el = elements.get(readPOS);
+            this.advance_reading();
+            size--;
+            return el; 
+        }
+        
     }
 
     @Override
     public T poll() {
-        // TODO Auto-generated method stub
-        return null;
+        if(this.isEmpty()){
+            return null;
+        }else{
+            T el = elements.get(readPOS);
+            this.advance_reading();
+            size--;
+            return el; 
+        }
+        
     }
 
     @Override
     public T element() {
-        // TODO Auto-generated method stub
-        return null;
+        if(this.isEmpty()){
+            throw new NoSuchElementException();
+        }else{
+            return elements.get(readPOS);
+        }
     }
 
     @Override
     public T peek() {
-        // TODO Auto-generated method stub
-        return null;
+        if(this.isEmpty()){
+            return null;
+        }else{
+            return elements.get(readPOS);
+        }
     }
 
-    
+    private int next(int nr) {
+        if((nr+1) == capacity){
+            return 0;
+        }
+        else {
+            return (nr+1);
+        }
+    }
+
+    private boolean advance_writing() {
+        return true;
+    }
+
+    private boolean advance_reading() {
+        return false;
+    }
     
 }
