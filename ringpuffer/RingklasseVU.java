@@ -18,7 +18,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
     boolean discarding;
 
     //Konstruktor
-    RingklasseVU(int cap_in, boolean fixedCapacity_in , boolean discarding_in){
+    public RingklasseVU(int cap_in, boolean fixedCapacity_in , boolean discarding_in){
         size = 0;
         writePOS = 0;
         readPOS = 0;
@@ -26,6 +26,9 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
         fixedCapacity = fixedCapacity_in;
         discarding = discarding_in;
         elements = new ArrayList<T>(capacity);
+        for(int i = 0; i<capacity; i++){
+            elements.add(null);
+        }
     }
 
     @Override
@@ -35,18 +38,23 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
 
     @Override
     public boolean isEmpty() {
-        return (writePOS == readPOS) ;
+        return this.pr_isEmpty() ;
+    }
+
+    private boolean pr_isEmpty() {
+        
+        return (size == 0) ;
     }
 
     @Override
     public boolean contains(Object o) {
-        // TODO Auto-generated method stub
+        
         return false;
     }
 
     @Override
     public Iterator iterator() {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
@@ -105,45 +113,103 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
     }
 
     private boolean pr_add(T e) {
-        if(next(writePOS) == readPOS){
-            return false;
+        if(size >= capacity ){
+            if(fixedCapacity == false){
+                if(discarding == false){
+                    throw new IllegalStateException();
+                }else {
+                    elements.remove(writePOS);
+                    elements.add(writePOS, e);
+                    this.advance_writing();
+                    this.advance_reading();
+                    return true;
+                }
+            } else{
+                for(int i = 0; i<capacity; i++){
+                    elements.add(writePOS,null);
+                }
+                readPOS = readPOS + capacity;
+                capacity = capacity * 2;
+                return true;
+            }
         }else{
-            this.advance_writing();
+            elements.remove(writePOS);
             elements.add(writePOS, e);
-            size++;
-            return true;
-        } 
+            this.advance_writing();
+            size = size +1;
+           return true; 
+        }
+        
     }
 
     
 
     @Override
-    public boolean offer(Object e) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean offer(T e) {
+       
+        return pr_offer(e);
+    }
+
+    private boolean pr_offer(T e) {
+        if(size >= capacity ){
+            if(fixedCapacity == false){
+                if(discarding == false){
+                    return false; 
+                }else {
+                    elements.remove(writePOS);
+                    elements.add(writePOS, e);
+                    this.advance_writing();
+                    this.advance_reading();
+                    return true;
+                }
+            } else{
+                for(int i = 0; i<capacity; i++){
+                    elements.add(writePOS,null);
+                }
+                readPOS = readPOS + capacity;
+                capacity = capacity * 2;
+                return true;
+            }
+        }else{
+            elements.remove(writePOS);
+            elements.add(writePOS, e);
+            this.advance_writing();
+            size = size +1;
+           return true; 
+        }
     }
 
     @Override
     public T remove() {
+       return this.pr_remove(); 
+    }
+
+    public T pr_remove() {
         if(this.isEmpty()){
             throw new NoSuchElementException();
         }else{
-            T el = elements.get(readPOS);
+            T el = elements.remove(readPOS);
+            elements.add(readPOS, null);
             this.advance_reading();
-            size--;
+            size = size -1;
             return el; 
-        }
-        
+        } 
     }
 
     @Override
     public T poll() {
+        return this.pr_poll();
+    }
+
+    private T pr_poll() {
+        
         if(this.isEmpty()){
             return null;
         }else{
-            T el = elements.get(readPOS);
+            T el = elements.remove(readPOS);
+            elements.add(readPOS, null);
             this.advance_reading();
-            size--;
+            size = size -1;
             return el; 
         }
         
@@ -151,6 +217,11 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
 
     @Override
     public T element() {
+        return this.pr_element();
+    }
+
+    
+    private T pr_element() {
         if(this.isEmpty()){
             throw new NoSuchElementException();
         }else{
@@ -160,6 +231,10 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
 
     @Override
     public T peek() {
+        return this.pr_peek();
+    }
+
+    private T pr_peek() {
         if(this.isEmpty()){
             return null;
         }else{
@@ -176,12 +251,20 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
         }
     }
 
-    private boolean advance_writing() {
-        return true;
+    private void advance_writing() {
+        writePOS = next(writePOS);
     }
 
-    private boolean advance_reading() {
-        return false;
+    private void advance_reading() {
+        readPOS = next(readPOS);
+    }
+
+    public void show(){
+        for(T i : elements ){
+            System.out.println(i);
+        }
+        System.out.println("readPOS:"+readPOS);
+        System.out.println("writePOS:"+writePOS);
     }
     
 }
