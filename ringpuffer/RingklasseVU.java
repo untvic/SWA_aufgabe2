@@ -194,11 +194,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
         if(this.isEmpty()){
             throw new NoSuchElementException();
         }else{
-            T el = elements.remove(readPOS);
-            elements.add(readPOS, null);
-            this.advance_reading();
-            size = size -1;
-            return el; 
+           return normal_remove();
         } 
     }
 
@@ -211,14 +207,17 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
         if(this.isEmpty()){
             return null;
         }else{
-            T el = elements.remove(readPOS);
-            elements.add(readPOS, null);
-            this.advance_reading();
-            size = size -1;
-            return el; 
+            return normal_remove(); 
         }
     }
 
+    private T normal_remove(){
+        T el = elements.remove(readPOS);
+            elements.add(readPOS, null);
+            this.advance_reading();
+            size = size -1;
+            return el;
+    }
     @Override
     public T element() {
         return this.pr_element();
