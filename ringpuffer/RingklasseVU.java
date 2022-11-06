@@ -118,10 +118,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
                 if(discarding == false){
                     throw new IllegalStateException();
                 }else {
-                    elements.remove(writePOS);
-                    elements.add(writePOS, e);
-                    this.advance_writing();
-                    this.advance_reading();
+                    this.discarding_add(e);
                     return true;
                 }
             } else{
@@ -150,10 +147,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
                 if(discarding == false){
                     return false; 
                 }else {
-                    elements.remove(writePOS);
-                    elements.add(writePOS, e);
-                    this.advance_writing();
-                    this.advance_reading();
+                    this.discarding_add(e);
                     return true;
                 }
             } else{
@@ -172,6 +166,13 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
             elements.add(writePOS, e_in);
             this.advance_writing();
             size = size +1;
+    }
+
+    private void discarding_add(T e_in){
+        elements.remove(writePOS);
+                    elements.add(writePOS, e_in);
+                    this.advance_writing();
+                    this.advance_reading();
     }
 
     private void expand_capacity(int factor_in){
