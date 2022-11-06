@@ -125,11 +125,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
                     return true;
                 }
             } else{
-                for(int i = 0; i<capacity; i++){
-                    elements.add(writePOS,null);
-                }
-                readPOS = readPOS + capacity;
-                capacity = capacity * 2;
+                expand_capacity(2);
                 this.pr_add(e);
                 return true;
             }
@@ -164,11 +160,8 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
                     return true;
                 }
             } else{
-                for(int i = 0; i<capacity; i++){
-                    elements.add(writePOS,null);
-                }
-                readPOS = readPOS + capacity;
-                capacity = capacity * 2;
+                expand_capacity(2);
+                
                 this.pr_add(e);
                 return true;
             }
@@ -180,6 +173,15 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
            return true; 
         }
     }
+
+private void expand_capacity(int factor_in){
+    int new_cap = (capacity* factor_in) -capacity;
+    for(int i = 0; i<new_cap; i++){
+        elements.add(writePOS,null);
+    }
+    readPOS = readPOS + capacity;
+    capacity = capacity + new_cap;
+}
 
     @Override
     public T remove() {
