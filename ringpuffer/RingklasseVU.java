@@ -126,14 +126,11 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
                 }
             } else{
                 expand_capacity(2);
-                this.pr_add(e);
+                this.normal_add(e);
                 return true;
             }
         }else{
-            elements.remove(writePOS);
-            elements.add(writePOS, e);
-            this.advance_writing();
-            size = size +1;
+            this.normal_add(e);
            return true; 
         }
         
@@ -161,27 +158,31 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
                 }
             } else{
                 expand_capacity(2);
-                
-                this.pr_add(e);
+                this.normal_add(e);
                 return true;
             }
         }else{
-            elements.remove(writePOS);
-            elements.add(writePOS, e);
-            this.advance_writing();
-            size = size +1;
-           return true; 
+            this.normal_add(e);
+            return true; 
         }
     }
 
-private void expand_capacity(int factor_in){
-    int new_cap = (capacity* factor_in) -capacity;
-    for(int i = 0; i<new_cap; i++){
-        elements.add(writePOS,null);
+    private void normal_add(T e_in){
+        elements.remove(writePOS);
+            elements.add(writePOS, e_in);
+            this.advance_writing();
+            size = size +1;
     }
-    readPOS = readPOS + capacity;
-    capacity = capacity + new_cap;
-}
+
+    private void expand_capacity(int factor_in){
+        int new_cap = (capacity* factor_in) -capacity;
+        for(int i = 0; i<new_cap; i++){
+            elements.add(writePOS,null);
+        }
+        readPOS = readPOS + capacity;
+        capacity = capacity + new_cap;
+    }   
+
 
     @Override
     public T remove() {
@@ -206,7 +207,6 @@ private void expand_capacity(int factor_in){
     }
 
     private T pr_poll() {
-        
         if(this.isEmpty()){
             return null;
         }else{
@@ -216,7 +216,6 @@ private void expand_capacity(int factor_in){
             size = size -1;
             return el; 
         }
-        
     }
 
     @Override
