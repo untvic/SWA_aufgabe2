@@ -4,7 +4,7 @@ import ringpuffer.RingklasseVU;
 
 class main {
     public static void main(String[] args) {
-        RingklasseVU<String> t = new RingklasseVU<String>(2,false,true);
+        RingklasseVU<String> t = new RingklasseVU<String>(2,true,false);
         t.add("1");
         t.add("2");
         System.out.println("Array is:");
@@ -20,6 +20,16 @@ class main {
         t.show();
         t.offer("5");
         t.offer("6");
+        System.out.println("Array is:");
+        t.show();
+        t.offer("7");
+        System.out.println("Array is:");
+        t.show();
+        t.remove();
+        t.remove();
+        t.remove();
+        t.remove();
+        System.out.println("Array is:");
         t.show();
     }
 }

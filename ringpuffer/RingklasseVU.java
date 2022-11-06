@@ -130,6 +130,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
                 }
                 readPOS = readPOS + capacity;
                 capacity = capacity * 2;
+                this.pr_add(e);
                 return true;
             }
         }else{
@@ -168,6 +169,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
                 }
                 readPOS = readPOS + capacity;
                 capacity = capacity * 2;
+                this.pr_add(e);
                 return true;
             }
         }else{
