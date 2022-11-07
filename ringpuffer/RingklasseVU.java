@@ -107,9 +107,9 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
     }
 
     @Override
-    public boolean add(T e) {
+    public boolean add(T message) {
     
-        return pr_add(e);
+        return pr_add(message);
     }
 
     private boolean pr_add(T e) {
@@ -272,4 +272,8 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
         System.out.println("writePOS:"+writePOS);
     }
     
+    public void updateConfig(boolean fixedCapacity_in, boolean discarding_in){
+        this.fixedCapacity = fixedCapacity_in;
+        this.discarding = discarding_in;
+    }
 }
