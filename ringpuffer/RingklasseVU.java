@@ -113,6 +113,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
     }
 
     private boolean pr_add(T e) {
+        if(e == null){ throw new NullPointerException();}
         if(size >= capacity ){
             if(fixedCapacity == false){
                 if(discarding == false){
@@ -142,6 +143,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
     }
 
     private boolean pr_offer(T e) {
+        if(e == null){ throw new NullPointerException();}
         if(size >= capacity ){
             if(fixedCapacity == false){
                 if(discarding == false){
