@@ -26,11 +26,12 @@ public class SMQ<T> {
 
         if(messageQs.containsKey(nameQ)){
             messageQs.get(nameQ).updateConfig(fixedCapacity, discarding);
-            messageQs.get(nameQ).add(Message);
+           
         }
         else{
             messageQs.put(nameQ, new RingklasseVU<T>(10, fixedCapacity, discarding));
-        }
+        } 
+        messageQs.get(nameQ).add(Message);
     }
 
     public boolean addListener(String nameQ, Consumer<T> con){
@@ -46,7 +47,7 @@ public class SMQ<T> {
     }
 
     public void retrieveMessage(String nameQ, Consumer<T> con){
-        while(!messageQs.isEmpty()){
+        while(!messageQs.get(nameQ).isEmpty()){
             con.receiveMessage(messageQs.get(nameQ).poll()); 
         }
     }
