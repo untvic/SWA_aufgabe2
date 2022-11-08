@@ -143,6 +143,7 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
     }
 
     private boolean pr_offer(T e) {
+        
         if(e == null){ throw new NullPointerException();}
         if(size >= capacity ){
             if(fixedCapacity == false){
@@ -214,7 +215,8 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
     }
 
     private T normal_remove(){
-        T el = elements.remove(readPOS);
+            //naechsten 2 Lines auskommentieren, wenn array nicht genau sein soll!
+            T el = elements.remove(readPOS);
             elements.add(readPOS, null);
             this.advance_reading();
             size = size -1;
