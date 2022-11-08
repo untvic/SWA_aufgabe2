@@ -14,7 +14,7 @@ public class SMQ<T> {
     private SMQ(){
     }
     
-    public static <T> SMQ<?> getInstance(){
+    public static SMQ<?> getInstance(){
         if(smq == null){
             smq = new SMQ<>();
         }
