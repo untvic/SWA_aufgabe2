@@ -1,9 +1,8 @@
 package programs;
-
 import ringpuffer.RingklasseVU;
 import aufgabe2.*;
 
-class SMQTest {
+public class test {
     public static void main(String[] args) {
         Producer<String> pro1 = new Producer<String>();
         Producer<String> pro2 = new Producer<String>();
@@ -11,6 +10,7 @@ class SMQTest {
         Consumer<String> con2 = new Consumer<String>();
         SMQ<String> smq = null;
         smq.getInstance();
+        
         pro1.sendMessage("chat1", "1", smq);
         con1.getMessage("chat1", smq);
         con1.getMessage("chat1", smq);
