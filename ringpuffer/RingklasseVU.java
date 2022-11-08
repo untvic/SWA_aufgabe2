@@ -32,79 +32,40 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
     }
 
     @Override
-    public int size() {
-        return size;
-    }
+    public int size() {return size;}
 
     @Override
-    public boolean isEmpty() {
-        return this.pr_isEmpty() ;
-    }
-
-    private boolean pr_isEmpty() {
-        
-        return (size == 0) ;
-    }
+    public boolean isEmpty() {return this.pr_isEmpty() ;}
+    private boolean pr_isEmpty() {return (size == 0) ;}
 
     @Override
-    public boolean contains(Object o) {
-        
-        return false;
-    }
+    public boolean contains(Object o) {return false;}
 
     @Override
-    public Iterator iterator() {
-        
-        return null;
-    }
+    public Iterator iterator() {return null;}
 
     @Override
-    public Object[] toArray() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Object[] toArray() {return null;}
 
     @Override
-    public Object[] toArray(Object[] a) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Object[] toArray(Object[] a) {return null;}
 
     @Override
-    public boolean remove(Object o) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean remove(Object o) {return false;}
 
     @Override
-    public boolean containsAll(Collection c) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean containsAll(Collection c) {return false;}
 
     @Override
-    public boolean addAll(Collection c) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean addAll(Collection c) {return false;}
 
     @Override
-    public boolean removeAll(Collection c) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
+    public boolean removeAll(Collection c) {return false;}
+    
     @Override
-    public boolean retainAll(Collection c) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
+    public boolean retainAll(Collection c) {return false;}
     @Override
-    public void clear() {
-        // TODO Auto-generated method stub
-        
-    }
+    public void clear() {}
 
     @Override
     public boolean add(T message) {
@@ -173,9 +134,9 @@ public class RingklasseVU<T> implements Serializable,Queue<T>{
 
     private void discarding_add(T e_in){
         elements.remove(writePOS);
-                    elements.add(writePOS, e_in);
-                    this.advance_writing();
-                    this.advance_reading();
+        elements.add(writePOS, e_in);
+        this.advance_writing();
+        this.advance_reading();
     }
 
     private void expand_capacity(int factor_in){
